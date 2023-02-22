@@ -1,34 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useEffect, useState } from 'react'
+import {  Layout } from 'antd';
+import ContentCustom from './layouts/ContentCustom'
+import HeaderCustom from './layouts/HeaderCustom'
+import SideMenuCustom from './layouts/SideMenuCustom'
+import CardCustom from './components/CardCustom/CardCustom'
 
-function App() {
-  const [count, setCount] = useState(0)
+const { Footer } = Layout;
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+const App: React.FC = () => {
+    
+    
+    const [posts, setPosts] = useState<any[]>([])
+    
+    
+    useEffect(() => {
+        fetch('https://dummyjson.com/posts')
+        .then(res => res.json())
+        // .then(setPosts);
+        .then((res) => setPosts(res.posts));
+    
+    }, [])
+    
+    console.log('>>posts', posts)
+    
+    return (
+        <Layout style={{ minHeight: '100vh' }}>
+            <SideMenuCustom />
+            <Layout className="site-layout">
+               <HeaderCustom />
+               <ContentCustom>
+                   { !posts.length ? <div>No posts</div> : (
+                       posts.map((post) => {
+                           return  <CardCustom title={post.title} body={post.body} />
+                       })
+                   )}
+                
+               </ContentCustom>
+                <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+            </Layout>
+        </Layout>
+    );
+};
 
-export default App
+export default App;
