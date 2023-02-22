@@ -2,7 +2,7 @@ import { Breadcrumb, theme } from 'antd'
 import React from 'react'
 import { Content } from 'antd/es/layout/layout'
 
-const ContentCustom = () => {
+const ContentCustom = (props: any) => {
     
     const {
         token: { colorBgContainer },
@@ -15,7 +15,7 @@ const ContentCustom = () => {
                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                Bill is a cat.
+                {props.children}
             </div>
         </Content>
     )
