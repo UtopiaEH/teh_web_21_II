@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Card } from 'antd'
 import styles from './Style.module.scss'
+import { useHistory } from 'react-router-dom'
 
-const CardCustom = ({title, body}: {title: string, body: string}) => {
+const CardCustom = ({title, body, id}: {title: string, body: string, id: number}) => {
+    
+    let history = useHistory()
+    
 
    // const [post, setPost] = useState<any>({})
    //
@@ -16,7 +20,7 @@ const CardCustom = ({title, body}: {title: string, body: string}) => {
    //
     
     return (
-        <Card title={title} bordered={false}  className={styles['wrapper']}>
+        <Card title={title} bordered={false}  className={styles['wrapper']} onClick={() => history.push(`/content/${id}`)} >
             {body}
         </Card>
     )
