@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import {  Layout } from 'antd';
+import { Layout } from 'antd'
 import ContentCustom from './layouts/ContentCustom'
 import HeaderCustom from './layouts/HeaderCustom'
 import SideMenuCustom from './layouts/SideMenuCustom'
 import CardCustom from './components/CardCustom/CardCustom'
+import { Route, Switch } from 'react-router-dom'
+import CardMore from './components/CardCustom/CardMore'
 
 const { Footer } = Layout;
 
@@ -21,7 +23,7 @@ const App: React.FC = () => {
     
     }, [])
     
-    console.log('>>posts', posts)
+    // console.log('>>posts', posts)
     
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -29,15 +31,35 @@ const App: React.FC = () => {
             <Layout className="site-layout">
                <HeaderCustom />
                <ContentCustom>
-                   { !posts.length ? <div>No posts</div> : (
-                       posts.map((post) => {
-                           return  <CardCustom title={post.title} body={post.body} />
-                       })
-                   )}
+    
+                   <Switch>
+                       <Route exact={true} path={'/'} >
+                           <div>
+                               main
+                           </div>
+                       </Route>
+                       <Route  exact={true}  path={'/content'} >
+                           <div>
+                               { !posts.length ? <div>No posts</div> : (
+                                   posts.map((post) => {
+                                       return  <CardCustom  key={post.id} title={post.title} body={post.body} id={post.id}/>
+                                   })
+                               )}
+                           </div>
+                       </Route>
+    
+                       <Route path={'/content/:id'}  children={(history) => <CardMore id={history.match?.params.id}/>} />
+                       
+                   </Switch>
                 
                </ContentCustom>
                 <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
             </Layout>
+            
+           
+            
+            
+            
         </Layout>
     );
 };
